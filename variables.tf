@@ -45,9 +45,9 @@ variable "vnet_cidr" {
 }
 
 variable "consul_subnet_cidr" {
-  type        = list(string)
+  type        = string
   description = "CIDR block for Consul subnet1."
-  default     = ["10.0.1.0/24"]
+  default     = "10.0.1.0/24"
 }
 
 variable "bastion_subnet_cidr" {
@@ -76,27 +76,39 @@ variable "deploy_virtual_machines" {
   default     = false
 }
 
+variable "consul_ingress_cidr_allow" {
+  type        = list(string)
+  description = "List of CIDRs allowed inbound to consul servers via SSH (port 22) on vnet."
+  default     = []
+}
+
 variable "vm_settings" {
   type        = map(any)
   description = "Map of the zones to put the VMs into."
   default = {
-    consul-vm-1 = {
+    consul-vm-1-server = {
       zone = "1"
     }
-    consul-vm-2 = {
+    consul-vm-2-server = {
       zone = "1"
     }
-    consul-vm-3 = {
+    consul-vm-3-server = {
       zone = "2"
     }
-    consul-vm-4 = {
+    consul-vm-4-server = {
       zone = "2"
     }
-    consul-vm-5 = {
+    consul-vm-5-server = {
       zone = "3"
     }
-    consul-vm-6 = {
+    consul-vm-6-server = {
       zone = "3"
+    }
+    consul-vm-7-client = {
+      zone = "1"
+    }
+    consul-vm-8-client = {
+      zone = "2"
     }
   }
 }

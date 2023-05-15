@@ -7,7 +7,7 @@ resource "azurerm_virtual_network" "primary-consul-vnet" {
 
 resource "azurerm_subnet" "primary-consul-subnet" {
   name                 = "${var.friendly_name_prefix}-primary-subnet1"
-  address_prefixes     = var.consul_subnet_cidr
+  address_prefixes     = [var.consul_subnet_cidr]
   virtual_network_name = azurerm_virtual_network.primary-consul-vnet.name
   resource_group_name  = azurerm_resource_group.primary-consul-rg.name
   service_endpoints = [
