@@ -14,13 +14,13 @@ variable "common_tags" {
   default     = {}
 }
 
-variable "primary_consul_rg" {
+variable "consul_rg" {
   type        = string
   description = "The primary consul cluster resource group name."
-  default     = "primary-consul-rg"
+  default     = "consul-rg"
 }
 
-variable "primary_consul_rg_location" {
+variable "consul_rg_location" {
   type        = string
   description = "The location of the primary consul cluster resource group."
   default     = "East US"
@@ -67,6 +67,13 @@ variable "bastion_ingress_cidr_allow" {
   description = "List of CIDRs allowed inbound to bastion via SSH (port 22) on bastion subnet."
   default     = []
 }
+
+variable "consul_ingress_cidr_allow" {
+  type        = list(string)
+  description = "List of CIDRs allowed inbound to consul servers via SSH (port 22) on vnet."
+  default     = []
+}
+
 #-------------------------------------------------------------------------
 # VM
 #-------------------------------------------------------------------------
@@ -76,15 +83,20 @@ variable "deploy_virtual_machines" {
   default     = false
 }
 
-variable "consul_ingress_cidr_allow" {
-  type        = list(string)
-  description = "List of CIDRs allowed inbound to consul servers via SSH (port 22) on vnet."
-  default     = []
+variable "vm_admin_username" {
+  type        = string
+  description = "The username of the admin user that will be created on the VM. Will also be set to the SSH username."
+  default     = "consuladmin"
+}
+
+variable "ssh_public_key" {
+  type        = string
+  description = "The name of the ssh public key that will be put on the VMs. Must be placed relative to the working directory."
 }
 
 variable "vm_settings" {
   type        = map(any)
-  description = "Map of the zones to put the VMs into."
+  description = "Map of VMs to create and what zones to put them in. The key will be the servr name."
   default = {
     consul-vm-1-server = {
       zone = "1"
@@ -109,6 +121,9 @@ variable "vm_settings" {
     }
     consul-vm-8-client = {
       zone = "2"
+    }
+    consul-vm-9-mesh-gw = {
+      zone = "1"
     }
   }
 }

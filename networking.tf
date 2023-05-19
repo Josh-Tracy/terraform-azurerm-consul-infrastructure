@@ -1,15 +1,15 @@
-resource "azurerm_virtual_network" "primary-consul-vnet" {
-  name                = "${var.friendly_name_prefix}-primary-vnet"
+resource "azurerm_virtual_network" "consul-vnet" {
+  name                = "${var.friendly_name_prefix}-vnet"
   address_space       = var.vnet_cidr
-  location            = azurerm_resource_group.primary-consul-rg.location
-  resource_group_name = azurerm_resource_group.primary-consul-rg.name
+  location            = azurerm_resource_group.consul-rg.location
+  resource_group_name = azurerm_resource_group.consul-rg.name
 }
 
-resource "azurerm_subnet" "primary-consul-subnet" {
-  name                 = "${var.friendly_name_prefix}-primary-subnet1"
+resource "azurerm_subnet" "consul-subnet" {
+  name                 = "${var.friendly_name_prefix}-subnet1"
   address_prefixes     = [var.consul_subnet_cidr]
-  virtual_network_name = azurerm_virtual_network.primary-consul-vnet.name
-  resource_group_name  = azurerm_resource_group.primary-consul-rg.name
+  virtual_network_name = azurerm_virtual_network.consul-vnet.name
+  resource_group_name  = azurerm_resource_group.consul-rg.name
   service_endpoints = [
     "Microsoft.Storage",
     "Microsoft.KeyVault"
@@ -17,16 +17,16 @@ resource "azurerm_subnet" "primary-consul-subnet" {
 }
 
 resource "azurerm_subnet" "bastion" {
-  resource_group_name  = azurerm_resource_group.primary-consul-rg.name
+  resource_group_name  = azurerm_resource_group.consul-rg.name
   name                 = "${var.friendly_name_prefix}-consul-bastion-subnet"
-  virtual_network_name = azurerm_virtual_network.primary-consul-vnet.name
+  virtual_network_name = azurerm_virtual_network.consul-vnet.name
   address_prefixes     = [var.bastion_subnet_cidr]
 }
 
 resource "azurerm_nat_gateway" "nat_gateway" {
-  name                    = "${var.friendly_name_prefix}-prim-natgw"
-  location                = azurerm_resource_group.primary-consul-rg.location
-  resource_group_name     = azurerm_resource_group.primary-consul-rg.name
+  name                    = "${var.friendly_name_prefix}-natgw"
+  location                = azurerm_resource_group.consul-rg.location
+  resource_group_name     = azurerm_resource_group.consul-rg.name
   sku_name                = "Standard"
   idle_timeout_in_minutes = 10
   zones                   = ["1"]
@@ -34,8 +34,8 @@ resource "azurerm_nat_gateway" "nat_gateway" {
 
 resource "azurerm_route_table" "route_table" {
   name                = "${var.friendly_name_prefix}-natgw-rt"
-  location            = azurerm_resource_group.primary-consul-rg.location
-  resource_group_name = azurerm_resource_group.primary-consul-rg.name
+  location            = azurerm_resource_group.consul-rg.location
+  resource_group_name = azurerm_resource_group.consul-rg.name
 
   route {
     name           = "DefaultRoute"
@@ -45,6 +45,6 @@ resource "azurerm_route_table" "route_table" {
 }
 
 resource "azurerm_subnet_route_table_association" "subnet_rt_association1" {
-  subnet_id      = azurerm_subnet.primary-consul-subnet.id
+  subnet_id      = azurerm_subnet.consul-subnet.id
   route_table_id = azurerm_route_table.route_table.id
 }

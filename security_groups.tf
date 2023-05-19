@@ -1,11 +1,11 @@
 resource "azurerm_network_security_group" "consul-nsg" {
   name                = "${var.friendly_name_prefix}-consul-nsg"
-  location            = azurerm_resource_group.primary-consul-rg.location
-  resource_group_name = azurerm_resource_group.primary-consul-rg.name
+  location            = azurerm_resource_group.consul-rg.location
+  resource_group_name = azurerm_resource_group.consul-rg.name
 }
 
 resource "azurerm_network_security_rule" "consul_rpc_ingress" {
-  resource_group_name          = azurerm_resource_group.primary-consul-rg.name
+  resource_group_name          = azurerm_resource_group.consul-rg.name
   network_security_group_name  = azurerm_network_security_group.consul-nsg.name
   name                         = "${var.friendly_name_prefix}-consul-rpc-ingress-8300"
   description                  = "Allow Consul server RPC traffic inbound"
@@ -20,7 +20,7 @@ resource "azurerm_network_security_rule" "consul_rpc_ingress" {
 }
 
 resource "azurerm_network_security_rule" "consul_rpc_egress" {
-  resource_group_name          = azurerm_resource_group.primary-consul-rg.name
+  resource_group_name          = azurerm_resource_group.consul-rg.name
   network_security_group_name  = azurerm_network_security_group.consul-nsg.name
   name                         = "${var.friendly_name_prefix}-consul-rpc-egress-8300"
   description                  = "Allow Consul server RPC traffic outbound"
@@ -35,7 +35,7 @@ resource "azurerm_network_security_rule" "consul_rpc_egress" {
 }
 
 resource "azurerm_network_security_rule" "consul_gossip_tcp_ingress" {
-  resource_group_name          = azurerm_resource_group.primary-consul-rg.name
+  resource_group_name          = azurerm_resource_group.consul-rg.name
   network_security_group_name  = azurerm_network_security_group.consul-nsg.name
   name                         = "${var.friendly_name_prefix}-consul-gossip-tcp-ingress-8301-2"
   description                  = "Allow Consul gossip tcp traffic inbound"
@@ -50,7 +50,7 @@ resource "azurerm_network_security_rule" "consul_gossip_tcp_ingress" {
 }
 
 resource "azurerm_network_security_rule" "consul_gossip_tcp_egress" {
-  resource_group_name          = azurerm_resource_group.primary-consul-rg.name
+  resource_group_name          = azurerm_resource_group.consul-rg.name
   network_security_group_name  = azurerm_network_security_group.consul-nsg.name
   name                         = "${var.friendly_name_prefix}-consul-gossip-tcp-egress-8301-2"
   description                  = "Allow Consul gossip tcp traffic outbound"
@@ -65,7 +65,7 @@ resource "azurerm_network_security_rule" "consul_gossip_tcp_egress" {
 }
 
 resource "azurerm_network_security_rule" "consul_gossip_udp_ingress" {
-  resource_group_name          = azurerm_resource_group.primary-consul-rg.name
+  resource_group_name          = azurerm_resource_group.consul-rg.name
   network_security_group_name  = azurerm_network_security_group.consul-nsg.name
   name                         = "${var.friendly_name_prefix}-consul-gossip-udp-ingress-8301-2"
   description                  = "Allow Consul gossip udp traffic inbound"
@@ -80,7 +80,7 @@ resource "azurerm_network_security_rule" "consul_gossip_udp_ingress" {
 }
 
 resource "azurerm_network_security_rule" "consul_gossip_udp_egress" {
-  resource_group_name          = azurerm_resource_group.primary-consul-rg.name
+  resource_group_name          = azurerm_resource_group.consul-rg.name
   network_security_group_name  = azurerm_network_security_group.consul-nsg.name
   name                         = "${var.friendly_name_prefix}-consul-gossip-udp-egress-8301-2"
   description                  = "Allow Consul gossip udp traffic outbound"
@@ -95,7 +95,7 @@ resource "azurerm_network_security_rule" "consul_gossip_udp_egress" {
 }
 
 resource "azurerm_network_security_rule" "consul_dns_tcp_ingress" {
-  resource_group_name          = azurerm_resource_group.primary-consul-rg.name
+  resource_group_name          = azurerm_resource_group.consul-rg.name
   network_security_group_name  = azurerm_network_security_group.consul-nsg.name
   name                         = "${var.friendly_name_prefix}-consul-dns-tcp-ingress-8600"
   description                  = "Allow Consul DNS tcp traffic inbound"
@@ -110,7 +110,7 @@ resource "azurerm_network_security_rule" "consul_dns_tcp_ingress" {
 }
 
 resource "azurerm_network_security_rule" "consul_dns_udp_ingress" {
-  resource_group_name          = azurerm_resource_group.primary-consul-rg.name
+  resource_group_name          = azurerm_resource_group.consul-rg.name
   network_security_group_name  = azurerm_network_security_group.consul-nsg.name
   name                         = "${var.friendly_name_prefix}-consul-dns-udp-ingress-8600"
   description                  = "Allow Consul DNS udp traffic inbound"
@@ -125,8 +125,8 @@ resource "azurerm_network_security_rule" "consul_dns_udp_ingress" {
 }
 
 resource "azurerm_network_security_rule" "consul_ssh" {
-  resource_group_name          = azurerm_resource_group.primary-consul-rg.name
-  network_security_group_name  = azurerm_network_security_group.consul-nsg.name
+  resource_group_name         = azurerm_resource_group.consul-rg.name
+  network_security_group_name = azurerm_network_security_group.consul-nsg.name
   name                        = "${var.friendly_name_prefix}-consul-ingress-ssh"
   description                 = "Allow list for SSH inbound to Consul Servers."
   priority                    = 1006
@@ -140,11 +140,11 @@ resource "azurerm_network_security_rule" "consul_ssh" {
 }
 
 resource "azurerm_network_security_rule" "consul_http" {
-  resource_group_name          = azurerm_resource_group.primary-consul-rg.name
-  network_security_group_name  = azurerm_network_security_group.consul-nsg.name
+  resource_group_name         = azurerm_resource_group.consul-rg.name
+  network_security_group_name = azurerm_network_security_group.consul-nsg.name
   name                        = "${var.friendly_name_prefix}-consul-ingress-http"
   description                 = "Allow list for http inbound to Consul Servers."
-  priority                    = 1006
+  priority                    = 1007
   direction                   = "Inbound"
   access                      = "Allow"
   protocol                    = "Tcp"
@@ -155,11 +155,11 @@ resource "azurerm_network_security_rule" "consul_http" {
 }
 
 resource "azurerm_network_security_rule" "consul_https" {
-  resource_group_name          = azurerm_resource_group.primary-consul-rg.name
-  network_security_group_name  = azurerm_network_security_group.consul-nsg.name
+  resource_group_name         = azurerm_resource_group.consul-rg.name
+  network_security_group_name = azurerm_network_security_group.consul-nsg.name
   name                        = "${var.friendly_name_prefix}-consul-ingress-https"
   description                 = "Allow list for https inbound to Consul Servers."
-  priority                    = 1006
+  priority                    = 1008
   direction                   = "Inbound"
   access                      = "Allow"
   protocol                    = "Tcp"
@@ -170,7 +170,7 @@ resource "azurerm_network_security_rule" "consul_https" {
 }
 
 resource "azurerm_subnet_network_security_group_association" "subnet_nsg_association1" {
-  subnet_id                 = azurerm_subnet.primary-consul-subnet.id
+  subnet_id                 = azurerm_subnet.consul-subnet.id
   network_security_group_id = azurerm_network_security_group.consul-nsg.id
 }
 
@@ -178,8 +178,8 @@ resource "azurerm_subnet_network_security_group_association" "subnet_nsg_associa
 # Bastion Subnet NSG
 #------------------------------------------------------------------------------
 resource "azurerm_network_security_group" "bastion" {
-  resource_group_name = azurerm_resource_group.primary-consul-rg.name
-  location            = azurerm_resource_group.primary-consul-rg.location
+  resource_group_name = azurerm_resource_group.consul-rg.name
+  location            = azurerm_resource_group.consul-rg.location
   name                = "${var.friendly_name_prefix}-bastion-nsg"
 
   tags = merge(
@@ -189,7 +189,7 @@ resource "azurerm_network_security_group" "bastion" {
 }
 
 resource "azurerm_network_security_rule" "bastion_ingress_ssh" {
-  resource_group_name         = azurerm_resource_group.primary-consul-rg.name
+  resource_group_name         = azurerm_resource_group.consul-rg.name
   network_security_group_name = azurerm_network_security_group.bastion.name
   name                        = "${var.friendly_name_prefix}-bastion-ingress-ssh"
   description                 = "Allow list for SSH inbound to bastion."

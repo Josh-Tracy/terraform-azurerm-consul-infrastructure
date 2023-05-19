@@ -2,8 +2,8 @@
 # Public IP
 #------------------------------------------------------------------------------
 resource "azurerm_public_ip" "bastion" {
-  resource_group_name = azurerm_resource_group.primary-consul-rg.name
-  location            = azurerm_resource_group.primary-consul-rg.location
+  resource_group_name = azurerm_resource_group.consul-rg.name
+  location            = azurerm_resource_group.consul-rg.location
   name                = "${var.friendly_name_prefix}-bastion-public-ip"
   allocation_method   = "Static"
   domain_name_label   = "${var.friendly_name_prefix}-bastion"
@@ -18,8 +18,8 @@ resource "azurerm_public_ip" "bastion" {
 # Network Interface
 #------------------------------------------------------------------------------
 resource "azurerm_network_interface" "bastion" {
-  resource_group_name = azurerm_resource_group.primary-consul-rg.name
-  location            = azurerm_resource_group.primary-consul-rg.location
+  resource_group_name = azurerm_resource_group.consul-rg.name
+  location            = azurerm_resource_group.consul-rg.location
   name                = "${var.friendly_name_prefix}-bastion-nic"
 
   ip_configuration {
@@ -39,8 +39,8 @@ resource "azurerm_network_interface" "bastion" {
 # VM
 #------------------------------------------------------------------------------
 resource "azurerm_linux_virtual_machine" "bastion" {
-  resource_group_name = azurerm_resource_group.primary-consul-rg.name
-  location            = azurerm_resource_group.primary-consul-rg.location
+  resource_group_name = azurerm_resource_group.consul-rg.name
+  location            = azurerm_resource_group.consul-rg.location
   name                = "${var.friendly_name_prefix}-bastion"
   size                = "Standard_D1_v2"
   admin_username      = "consuladmin"
