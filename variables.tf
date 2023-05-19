@@ -50,22 +50,10 @@ variable "consul_subnet_cidr" {
   default     = "10.0.1.0/24"
 }
 
-variable "bastion_subnet_cidr" {
-  type        = string
-  description = "CIDR block for Consul subnet2."
-  default     = "10.0.2.0/24"
-}
-
 variable "create_nat_gateway" {
   type        = bool
   description = "Boolean to create a NAT Gateway. Useful when Azure Load Balancer is internal but VM(s) require outbound Internet access."
   default     = false
-}
-
-variable "bastion_ingress_cidr_allow" {
-  type        = list(string)
-  description = "List of CIDRs allowed inbound to bastion via SSH (port 22) on bastion subnet."
-  default     = []
 }
 
 variable "consul_ingress_cidr_allow" {

@@ -173,37 +173,3 @@ resource "azurerm_subnet_network_security_group_association" "subnet_nsg_associa
   subnet_id                 = azurerm_subnet.consul-subnet.id
   network_security_group_id = azurerm_network_security_group.consul-nsg.id
 }
-
-#------------------------------------------------------------------------------
-# Bastion Subnet NSG
-#------------------------------------------------------------------------------
-resource "azurerm_network_security_group" "bastion" {
-  resource_group_name = azurerm_resource_group.consul-rg.name
-  location            = azurerm_resource_group.consul-rg.location
-  name                = "${var.friendly_name_prefix}-bastion-nsg"
-
-  tags = merge(
-    { "Name" = "${var.friendly_name_prefix}-bastion-nsg" },
-    var.common_tags
-  )
-}
-
-resource "azurerm_network_security_rule" "bastion_ingress_ssh" {
-  resource_group_name         = azurerm_resource_group.consul-rg.name
-  network_security_group_name = azurerm_network_security_group.bastion.name
-  name                        = "${var.friendly_name_prefix}-bastion-ingress-ssh"
-  description                 = "Allow list for SSH inbound to bastion."
-  priority                    = 1001
-  direction                   = "Inbound"
-  access                      = "Allow"
-  protocol                    = "Tcp"
-  source_port_range           = "*"
-  destination_port_range      = "22"
-  source_address_prefixes     = var.bastion_ingress_cidr_allow
-  destination_address_prefix  = var.bastion_subnet_cidr
-}
-
-resource "azurerm_subnet_network_security_group_association" "bastion" {
-  subnet_id                 = azurerm_subnet.bastion.id
-  network_security_group_id = azurerm_network_security_group.bastion.id
-}

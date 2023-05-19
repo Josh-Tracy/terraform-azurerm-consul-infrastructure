@@ -6,7 +6,7 @@ More specifically it creates:
 - A Virtual Network (VNET) with a subnet and a NAT Gateway
 - Network Security Groups (NSG) with rules based on Hashicorp Consul requirements
 - A number of VMs to allow Consul Servers, Clients, and Mesh Gateways to be installed on
-- Public IP addresses and network interfaces
+- Public IP addresses and network interfaces for ease of access while testing
 - A Storage Account for Consul Snapshots to be placed in
 
 ## How to Use
@@ -33,12 +33,10 @@ module "consul-dc-1" {
   }
 
   sa_ingress_cidr_allow      = ["1.2.3.4"]
-  bastion_ingress_cidr_allow = ["1.2.3.4/32"]
   consul_ingress_cidr_allow  = ["1.2.3.4/32"]
 
   vnet_cidr           = ["10.0.0.0/16"]
   consul_subnet_cidr  = "10.0.1.0/24"
-  bastion_subnet_cidr = "10.0.2.0/24"
 
   deploy_virtual_machines = true
   ssh_public_key          = "consul.pub"

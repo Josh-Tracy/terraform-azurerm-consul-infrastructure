@@ -15,14 +15,6 @@ resource "azurerm_subnet" "consul-subnet" {
     "Microsoft.KeyVault"
   ]
 }
-
-resource "azurerm_subnet" "bastion" {
-  resource_group_name  = azurerm_resource_group.consul-rg.name
-  name                 = "${var.friendly_name_prefix}-consul-bastion-subnet"
-  virtual_network_name = azurerm_virtual_network.consul-vnet.name
-  address_prefixes     = [var.bastion_subnet_cidr]
-}
-
 resource "azurerm_nat_gateway" "nat_gateway" {
   name                    = "${var.friendly_name_prefix}-natgw"
   location                = azurerm_resource_group.consul-rg.location
