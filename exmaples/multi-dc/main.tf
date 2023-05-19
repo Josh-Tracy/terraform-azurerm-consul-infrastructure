@@ -14,13 +14,11 @@ module "consul-dc-1" {
     "Consul-DC"   = "dc1"
   }
 
-  sa_ingress_cidr_allow      = ["96.59.96.145"]
-  bastion_ingress_cidr_allow = ["96.59.96.145/32"]
-  consul_ingress_cidr_allow  = ["96.59.96.145/32"]
+  sa_ingress_cidr_allow     = ["96.59.96.145"]
+  consul_ingress_cidr_allow = ["96.59.96.145/32"]
 
-  vnet_cidr           = ["10.0.0.0/16"]
-  consul_subnet_cidr  = "10.0.1.0/24"
-  bastion_subnet_cidr = "10.0.2.0/24"
+  vnet_cidr          = ["10.0.0.0/16"]
+  consul_subnet_cidr = "10.0.1.0/24"
 
   # Deploys VMs so you can test configuring static VMs using Ansible or some other tool
   deploy_virtual_machines = true
@@ -73,13 +71,11 @@ module "consul-dc-2" {
     "Consul-DC"   = "dc2"
   }
 
-  sa_ingress_cidr_allow      = ["96.59.96.145"]
-  bastion_ingress_cidr_allow = ["96.59.96.145/32"]
-  consul_ingress_cidr_allow  = ["96.59.96.145/32"]
+  sa_ingress_cidr_allow     = ["96.59.96.145"]
+  consul_ingress_cidr_allow = ["96.59.96.145/32"]
 
-  vnet_cidr           = ["10.0.0.0/16"]
-  consul_subnet_cidr  = "10.0.1.0/24"
-  bastion_subnet_cidr = "10.0.2.0/24"
+  vnet_cidr          = ["10.0.0.0/16"]
+  consul_subnet_cidr = "10.0.1.0/24"
 
   # Deploys VMs so you can test configuring static VMs using Ansible or some other tool
   deploy_virtual_machines = true
